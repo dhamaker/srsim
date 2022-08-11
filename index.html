@@ -1,0 +1,159 @@
+<html lang="en" dir="ltr">
+    <head> <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Screen reader simulator | native html patterns </title>
+        <link rel="stylesheet" href="main.css"> 
+    </head>
+    <body>
+        <header>
+            <p>native html patterns</p>
+        </header>
+        <main>
+            <h1>UI simulator for screen reader experience</h1>
+            <p>Explore the out-of-box experience of interactive controls.</p>
+            <div class="widget">
+                <form id="config" name="config" action="#" onsubmit="outputMessage()" class="all">
+                    <h2>Settings</h2>               
+                    <p>
+                        <label for="type">type</label>
+                        <select id="type" onchange="updateParameters();">
+                            <option>text</option>
+                            <option>button</option>
+                            <option>email</option>
+                            <1option>list</option> //move to props
+                            <option>number</option>
+                            <option>password</option>
+                            <option>range</option>
+                            <option>search</option>
+                            <option>select</option>
+                            <option>tel</option>
+                            <option>url</option>
+                            <option>textarea</option>
+                            
+                            <!-- <option>checkbox</option> -->
+                            <!-- <option>date</option> -->
+                            <!-- <option>details</option> -->
+                            <!-- <option>link</option> -->
+                            <!-- <option>radio</option> -->
+                            <!-- <option>time</option> -->
+                        </select>
+                    </p>
+                    <fieldset>
+                        <legend>labels</legend>
+                        <p>
+                            <label for="name">Name</code></label>
+                            <input id="name" type="text" value="{label}"/>
+                        </p>
+                        <p>
+                            <label for="description">Description</code></label>
+                            <input id="description" type="text" value="{description}"/>
+                        </p>
+                        <p class="inputAttr">
+                            <label for="placeholder">placeholder</label>
+                            <input id="placeholder" type="text" value="{placeholder}"/>
+                        </p>
+                        <p>
+                            <label for="title">title</label>
+                            <input id="title" type="text" value="{title}"/>
+                        </p>
+                        <p>
+                            <label for="value">value</code></label>
+                            <input id="value" type="text" value="" placeholder="user's input"/>
+                        </p>
+                    </fieldset>
+                    <fieldset>
+                        <legend>attributes</legend>
+                        <p class="inputAttr">
+                            <label for="autocomplete">autocomplete</label>
+                            <select id="autocomplete"">
+                                <option>true</option>
+                                <option selected>false</option>
+                            </select>
+                        </p>
+                        <!--
+                        <fieldset>
+                            <legend>autocomplete</legend>
+                            <label><input type="radio" value="true" id="autoOn" name="auto">true</label>
+                            <label><input type="radio" value="false" id="autoOff" name="auto" checked>false</label>
+                        </fieldset>
+
+                        -->
+                        <p>
+                            <label for="required">required</label>
+                            <select id="required">
+                                <option value="false">none</option>
+                                <option value="html">HTML method</option>
+                                <option value="aria">ARIA method</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label for="disabled">disabled</label>
+                            <select id="disabled">
+                                <option value="false">none</option>
+                                <option value="html">HTML method</option>
+                                <option value="aria">ARIA method</option>
+                            </select>
+                        </p>
+                    </fieldset>
+                    <fieldset class="buttonAttr">
+                        <legend>button attributes</legend>
+                        <p>
+                            <label for="buttonType">role</label>
+                            <select id="buttonType">
+                                <option value="">Button</option>
+                                <option value="switch">Switch</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label for="buttonType">type</label>
+                            <select id="buttonType">
+                                <option value="">none</option>
+                                <option value="aria-pressed">Toggle</option>
+                                <option value="aria-expanded">Details</option>
+                                <option value="aria-haspopup">Pop Up</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>state</label>
+                            <select>
+                                <option>true</option>
+                                <option>false</option>
+                                <option>mixed</option>
+                            </select>  
+                        </p>
+                    </fieldset>
+                    <p class="cta">
+                        <button id="simulateInput" type="submit">Simulate</button>
+                        <button type="reset" onclick="location.reload()">Clear</button>
+                    </p>
+                    <p>Future</p>
+                    <ul>
+                        <li>VO/iOS</li>
+                        <li>Talkback</li>
+                        <li>interactive control</li>
+                        <li>change props to radio controls from select</li>
+                        <li>type: {button, link, radio, checkbox, image</li>
+                        <li>Value</li>
+                        <li>Group name</li>
+                        <li>Form name</li>
+                        <li>checked {checked,unchecked, mixed}</li>
+                        <li>pressed </li>
+                        <li>switch</li>
+                        <li>expanded</li>
+                        <li>conditional property visibility</li>
+                    </ul>
+                    
+                </form>
+                <section class="ouputArea">
+                    <ol id="output" reversed></ol>
+                </section>
+            </div>
+            <template id="outputTemplate">
+                <p class="simulation">
+                    <span class="uaDesc"></span> 
+                    <span class="speech"></span>
+                </p>
+            </template>
+        </main>
+    </body>
+</html>
