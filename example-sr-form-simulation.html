@@ -1,0 +1,395 @@
+<html>
+    <head>
+        <title>Search | native html patterns </title>
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+
+            div.widget {
+                display:flex;
+                gap: 3rem;
+            }
+            
+            section {
+                flex-basis: 30%;
+            }
+            section {
+                flex-basis: 70%;
+            }
+            form label {
+                display:inline-block;
+                width:8rem;
+            }
+            form button {
+                display:block;
+                font-family: sans-serif;
+                font-size:1rem;
+                margin:2rem 0;
+            }
+            #sr-output {
+                color:#444;
+                margin:2rem 1rem;
+                padding:1em;
+                border:1px solid #efefef;
+                background: #efefef;
+                font-size:1.25rem;
+                line-height:1.5;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <p>native html patterns</p>
+        </header>
+        <main>
+            <h1>Screen Reader Form Simulation</h1>
+            <div class="widget">
+            <form id="config" name="config" action="#" onsubmit="outputMessage()">
+                <h2>Settings</h2>
+                <p>
+                    <label for="target">User Agent</label>
+                    <select id="target">
+                        <option value="VO/OSX">VoiceOver/OSX</option>
+                        <option value="JAWS">JAWS/Chrome</option>
+                        <option value="NVDA">NVDA/Chrome</option>
+                        <option value="VO/iOS">VoiceOver/iOS</option>
+                        <option value="Talkback">Talkback/Android</option>
+                    </select>
+                </p>
+                
+                <p>
+                    <label for="type">Type</label>
+                    <select id="type">
+                        <option>text</option>
+                        <option>email</option>
+                        <option>list</option>
+                        <option>number</option>
+                        <option>password</option>
+                        <option>range</option>
+                        <option>search</option>
+                        <option>select</option>
+                        <option>tel</option>
+                        <option>url</option>
+                        <option>textarea</option>
+                        <!-- <option>button</option> -->
+                        <!-- <option>date</option> -->
+                        <!-- <option>details</option> -->
+                        <!-- <option>link</option> -->
+                        <!-- <option>time</option> -->
+                    </select>
+                </p>
+                <p>
+                    <label for="">Name</code></label>
+                    <input id="name" type="text" value="Your label"/>
+                </p>
+                <p>
+                    <label for="description">Description</code></label>
+                    <input id="description" type="text" value="Your hint"/>
+                </p>
+                <p>
+                    <label for="placeholder"><code>placeholder</code></label>
+                    <input id="placeholder" type="text" value="Your placeholder"/>
+                </p>
+                <p>
+                    <label for="title"><code>title</code></label>
+                    <input id="title" type="text" value="Your tooltip"/>
+                </p>
+                <p>
+                    <label for="autocomplete">autocomplete</label>
+                    <select id="autocomplete">
+                        <option>false</option>
+                        <option>true</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="required">required</label>
+                    <select id="required">
+                        <option value="false">none</option>
+                        <option value="html">HTML method</option>
+                        <option value="aria">ARIA method</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="disabled">disabled</label>
+                    <select id="disabled">
+                        <option value="false">none</option>
+                        <option value="html">HTML method</option>
+                        <option value="aria">ARIA method</option>
+                    </select>
+                </p>
+
+                <p>
+                    <button id="simulateInput" type="submit">Show simulation</button>
+                </p>
+            </form>
+
+            <section id="output">
+                <p>Experince for out-of-box screen reader configuraiton</p>
+                <p id="sr-output"></p>
+            </section>
+            </div>
+
+            <template id="outputTemplate">
+                <p>
+                    <strong class="uaDesc"></strong> 
+                    <span class="speech"></span>
+                </p>
+            </template>
+
+            <script>
+                /* 
+                overview:
+                    - declare ua strings in JSON
+                    - functions for accName and accDesc calcs
+                    - parse attributes and authored content
+                    - concatenate announcements for each ua
+                    - create and add output node.
+
+                */
+
+                //UAstrings = JSON.parse('{"disabled":{"name":"dimmed","desc":"This item is dimmed"},"required":{"name":"required"},"autocomplete":{"name":"with autofill menu"},"email":{"name":"edit text","desc":"You are currently on a text field.","instruction":"To enter text in this field, type."},"text":{"name":"edit text","desc":"You are currently on a text field.","instruction":"To enter text in this field, type."},"number":{"name":"incrementable edit text","desc":"You are currently on a text field.","instruction":"To enter text in this field, type."},"range":{"name":"incrementable edit text","desc":"You are currently on a slider.","instruction":"To start interacting with the slider, press Control Option Shift Down Arrow."},"list":{"name":"list box popup, edit text","desc":"You are currently on a slider.","instruction":"To start interacting with the slider, press Control Option Shift Down Arrow."}}')
+
+UAstrings = JSON.parse(`
+    {
+        "disabled" : {
+            "name" : "dimmed",
+            "desc" : "This item is dimmed"
+        },
+        "required" : {
+            "name" : "required"
+        },
+        "autocomplete" : {
+            "name" : "with autofill menu"
+        },
+        "text" : {
+            "name" : "edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "email" : {
+            "name" : "edit text email field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "search" : {
+            "name" : "search text field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "url" : {
+            "name" : "edit text URL field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "password" : {
+            "name" : "secure edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type. This is a secure text field. Text you type into this field will not be displayed and will not be spoken by VoiceOver."
+        },
+        "tel" : {
+            "name" : "edit text telephone field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "textarea" : {
+            "name" : "edit text",
+            "desc" : "You are currently on a text area.",
+            "instruction" :  ""
+        },
+        "list" : {
+            "name" : "list box popup, edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "number" : {
+            "name" : "incrementable edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "range" : {
+            "name" : "slider",
+            "desc" : "You are currently on a slider.",
+            "instruction" :  "To start interacting with the slider, press Control Option-Shift-Down-Arrow."
+        },
+        "select" : {
+            "name" : "pop up button",
+            "desc" : "You are currently on a pop up button.",
+            "instruction" :  "To display a list of options, press Control-Options-Space."
+        }
+    }
+`);
+                function outputMessage() {
+                    myUA=target.value + ": ";
+                    auth = new Object();
+                    ua = new Object();
+                    useName = "explicit";
+                    useDesc = "explicit";
+
+                    // set name copy
+                    auth.arialabelledby = "";
+                    auth.arialabel = "";
+                    auth.label = config["name"].value;
+                    auth.placeholder = config["placeholder"].value;
+                    auth.title = config["title"].value;
+                    
+                    // set description (ua) content
+                    auth.describedby = "";
+                    auth.description = config["description"].value;
+                    ua.description = " To Do ";
+                    ua.instructions = " To Do ";
+                    ua.type = config["type"].value;
+                    ua.required = config["required"].value;
+                    ua.autocomplete = config["autocomplete"].value;
+                    ua.disabled = config["disabled"].value;
+                    
+                    calcDesc = getAccDesc();
+                
+                    
+                    
+                     // set UA strings
+                    switch (target.value){
+                        case "VO/OSX":
+                            myName = 
+                                getAccName() +
+                                (auth.placeholder.length>0? " "+ auth.placeholder : "") +
+                                (ua.disabled != "false" | ua.required != "false" ? ", " : "") +
+                                (ua.disabled != "false" ? " dimmed" : "") +
+                                (ua.required != "false" ? " required" : "") +
+                                " " + UAstrings[ua.type].name + 
+                                (ua.autocomplete != "false" ? " " + UAstrings.autocomplete.name : "") + ".";
+
+                            myDesc =
+                                " " + getAccDesc() + "." +
+                                " " + UAstrings[ua.type].desc + 
+                                " " + UAstrings[ua.type].instruction + 
+                                (ua.disabled != "false" ? " " + UAstrings.disabled.desc : "");
+
+                            break;
+                        case "NVDA":
+                            myName =  getAccName() + ".";
+                            // UAstrings[ua.type].name
+                            // "unavailable"
+                            // "required" ; "required invalid entry"
+                            // "title"
+                            // "placeholder"
+                            // value
+
+                            myDesc =  " " + getAccDesc();
+                            break;    
+                        case "JAWS":
+                            myName =  getAccName() + ".";
+                            // UAstrings[ua.type].name
+                            // "unavailable"
+                            // "required" ; "required invalid entry"
+                            // ("placeholder" | value | null)                           
+                            
+                            myDesc =  " " + getAccDesc();
+                            // (description | title | null)
+                            // instruction
+                            break;    
+                        default:
+                            myName =  getAccName() + ".";
+                            myDesc =  " " + getAccDesc();
+                            break;    
+
+                    };
+                  
+                    /* concatenate output 
+                        TODO complete UA array
+                    */
+                    if (ua.disabled == "html") {
+                        //myMsg[0] = myUA + "Not announced.";
+
+                    } else {
+                        myMsg = new Array();
+                        myMsg[0] = myUA + myName + myDesc;
+                    }
+
+                    /* write ouput
+                        TODO enhance with template and append node 
+                    */
+
+                    document.getElementById("sr-output").innerHTML = myMsg[0];
+
+                    
+                    /* END DRAFT */
+                    myMessages = new Array;
+                    myMessages[0] = {"ua" : myUA, "says": myName + myDesc};
+                    myMessages[1] = {"ua" : "JAWS", "says" : "Cats and dogs."};
+
+                    /* message array */
+
+                    var myOutput = document.querySelector("#output");
+                    var template = document.querySelector('#outputTemplate');
+                    myMessages.forEach((obj) => {
+                        // Clone the new paragrpah and insert it into section
+                        var clone = template.content.cloneNode(true);
+                        var ua = clone.querySelector(".uaDesc");
+                        var message = clone.querySelector(".speech");                   
+                        ua.textContent = (obj).ua; 
+                        message.textContent = (obj).msg;
+                        myOutput.appendChild(clone);
+                    }
+                    );
+
+                    /*
+                     0. append jaws
+                     1. append nvda
+                     2. append vo/osx
+                     3. append vo/ios
+                     4. append talkback
+                     5. write
+                    */
+                    return false;
+                }
+
+                function getAccName(){
+                    if (auth.arialabelledby!="") {
+                        return auth.arialabelledby;
+                    }
+                    else if (auth.arialabel!="") {
+                        return auth.arialabel;
+                    }
+                    else if (auth.label!="") {
+                        return auth.label;
+                    }
+                    else if (auth.placeholder!="") {
+                        useName = "placehodler";
+                        return auth.placeholder;
+                        
+                    } else if (auth.title!="") {
+                        useName="title"
+                        return auth.title;
+                    } else {
+                        return "missing label";
+                    }
+                }
+
+                function getAccDesc(){
+                    if (auth.describedby != "") {
+                        return auth.describedby;
+                    }
+                    else if (auth.description != "") {
+                        return auth.description;
+                    }
+                    else if (auth.placeholder != "" & useName != "placeholder") {
+                        return auth.placeholder;
+                        
+                    } else if (auth.title != "" & useName != "title") {
+                        return auth.title;
+                    } else {
+                        return "testing";
+                    }
+                }
+            </script>
+<!--
+<input type="text"  aria-disabled="false" aria-required="false" id="name" autocomplete="name" id="name" name="name" placeholder="your placeholder" title="your title" value="" >
+<input type="text"  aria-disabled="true" aria-required="true" id="name" autocomplete="name" id="name" name="name" placeholder="your placeholder" title="your title" value="" >
+<input type="text"  required disabled id="name" autocomplete="name" id="name" name="name" placeholder="your placeholder" title="your title" value="" >
+        -->
+        </main>
+    </body>
+</html>
