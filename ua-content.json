@@ -1,0 +1,221 @@
+[
+    {
+        "id" : "JAWS-Chrome-Windows",
+        "disabled" : {
+            "name" : "unavailable",
+            "desc" : ""
+        },
+        "required" : {
+            "name" : "required"
+        },
+        "autocomplete" : {
+            "name" : "TBD"
+        },
+        "button" : {
+            "name" : "button",
+            "desc" : "",
+            "instruction" : "To activate press enter."
+        },
+        "text" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  "Type in text."
+        },
+        "email" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" : "Type in text."
+        },
+        "password" : {
+            "name" : "password edit",
+            "desc" : "",
+            "instruction" :  "Type in text."
+        },
+        "search" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  "Type in text."
+        },
+        "tel" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  "Type in text"
+        },
+        "textarea" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  "Type in text."
+        },
+        "url" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  "Type in text."
+        },
+        "number" : {
+            "name" : "edit spin box",
+            "desc" : "",
+            "instruction" :  "To set the value use the arrow keys or type the value."
+        },
+        "range" : {
+            "name" : "slider",
+            "desc" : "Left right slider",
+            "instruction" :  "To increase or decrease use the arrow key."
+        },
+        "select" : {
+            "name" : "select combobox",
+            "desc" : "",
+            "instruction" :  "To change the selection use the arrow key."
+        },
+        "list" : {
+            "name" : "edit combo",
+            "desc" : "",
+            "instruction" :  "To set the value use the arrow keys or type the value."
+        }
+    },
+    {
+        "id" : "NVDA-Chrome-Windows",
+        "disabled" : {
+            "name" : "unavailable",
+            "desc" : ""
+        },
+        "required" : {
+            "name" : "required"
+        },
+        "autocomplete" : {
+            "name" : "has autocomplete"
+        },
+        "text" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "button" : {
+            "name" : "button",
+            "desc" : "",
+            "instruction" : "TBD"
+        },
+        "email" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" : ""
+        },
+        "password" : {
+            "name" : "edit protected",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "search" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "tel" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "textarea" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "url" : {
+            "name" : "edit",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "number" : {
+            "name" : "spin button editable",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "range" : {
+            "name" : "slider",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "select" : {
+            "name" : "combobox collapsed",
+            "desc" : "",
+            "instruction" :  ""
+        },
+        "list" : {
+            "name" : "combobox has autocomplete editable",
+            "desc" : "",
+            "instruction" :  ""
+        }
+    },
+    {
+        "id" : "VoiceOver-Safari-OSX",
+        "autocomplete" : {
+            "name" : "with autofill menu"
+        },
+        "disabled" : {
+            "name" : "dimmed",
+            "desc" : "This item is dimmed"
+        },
+        "required" : {
+            "name" : "required"
+        },
+        "text" : {
+            "name" : "edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text, type."
+        },
+        "button" : {
+            "name" : "button",
+            "desc" : "You are currently on a button.",
+            "instruction" : "To click this button press Control-Option-Space."
+        },
+        "email" : {
+            "name" : "edit text email field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text, type."
+        },
+        "password" : {
+            "name" : "secure edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text, type. This is a secure text field. Text you type into this field will not be displayed and will not be spoken by VoiceOver."
+        },
+        "search" : {
+            "name" : "search text field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "select" : {
+            "name" : "pop up button",
+            "desc" : "You are currently on a pop up button.",
+            "instruction" :  "To display a list of options, press Control-Option-Space."
+        },
+        "tel" : {
+            "name" : "edit text telephone field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text, type."
+        },
+        "textarea" : {
+            "name" : "edit text",
+            "desc" : "You are currently on a text area.",
+            "instruction" :  ""
+        },                        
+        "url" : {
+            "name" : "edit text URL field",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text in this field, type."
+        },
+        "number" : {
+            "name" : "incrementable edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To enter text, type."
+        },
+        "range" : {
+            "name" : "slider",
+            "desc" : "You are currently on a slider.",
+            "instruction" :  "To start interacting with the slider, press Control-Option-Shift-Down-Arrow."
+        },
+        "list" : {
+            "name" : "list box popup, edit text",
+            "desc" : "You are currently on a text field.",
+            "instruction" :  "To start interacting with the slider, press Control-Option-Shift-Down-Arrow."
+        }
+    }
+]
