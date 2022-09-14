@@ -1,0 +1,783 @@
+<html lang="en" dir="ltr">
+    <head> <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Screen reader simulator | native html patterns </title>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin:1rem 2rem;
+            }
+
+            div.widget {
+                display:flex;
+                gap: 3rem;
+            }
+            
+            form {
+                flex-basis: 22rem;
+                min-width:22rem;
+            }
+            input, select {
+                font-family:sans-serif;
+                font-size: 1em;
+            }
+            fieldset {
+                margin:1em 0;
+                border-style:dotted;
+            }
+            section {
+                flex-basis: 60%;
+            }
+            form label {
+                display:inline-block;
+                width:8rem;
+            }
+            form .cta {
+                margin:2rem 0;
+            }
+            form button {
+                font-family: sans-serif;
+                font-size:1rem;
+                margin:1rem 0 ;
+            }
+          
+            .cta button:last-child {
+                border:none;
+                background:none;
+            }
+
+        
+            #output {
+                display:block;
+                min-height: 15rem;
+                border-radius:.5rem;
+                color:#222;
+                width:100%;
+                margin:1rem 0rem;
+                padding:.5rem 2em;
+                border:1px solid #e7e7e7;
+                background: #f4f4f4;
+                font-size:1.2rem;
+                line-height:1.5;
+            }
+            
+            .simulation {
+                padding:0.25rem 0;
+                margin:0;
+            }
+            .uaDesc {
+                display:inline-block;
+                font-size:1rem;
+                color:#666;
+                width:12rem;
+            }
+            .uaDesc:before {
+                content:"["
+            }
+            .uaDesc:after {
+                content:"]"
+            }
+            
+            .simulation:nth-child(4n+4) {
+                margin-bottom:3rem;
+            }
+
+            .buttonAttr, .button .inputAttr {display:none;}
+            
+    
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <p>native html patterns</p>
+        </header>
+        <main>
+            <h1>UI simulator for screen reader experience</h1>
+            <p>Explore the out-of-box experience of interactive controls.</p>
+            <div class="widget">
+            <form id="config" name="config" action="#" onsubmit="outputMessage()" class="all">
+                <h2>Settings</h2>               
+                <p>
+                    <label for="type">type</label>
+                    <select id="type" onchange="updateParameters();">
+                        <option>text</option>
+                        <option>button</option>
+                        <option>email</option>
+                        <1option>list</option> //move to props
+                        <option>number</option>
+                        <option>password</option>
+                        <option>range</option>
+                        <option>search</option>
+                        <option>select</option>
+                        <option>tel</option>
+                        <option>url</option>
+                        <option>textarea</option>
+                        
+                        <!-- <option>checkbox</option> -->
+                        <!-- <option>date</option> -->
+                        <!-- <option>details</option> -->
+                        <!-- <option>link</option> -->
+                        <!-- <option>radio</option> -->
+                        <!-- <option>time</option> -->
+                    </select>
+                </p>
+                <fieldset>
+                    <legend>labels</legend>
+                    <p>
+                        <label for="name">Name*</code></label>
+                        <input id="name" type="text" value="{label}"/>
+                    </p>
+                    <p>
+                        <label for="description">Description</code></label>
+                        <input id="description" type="text" value="{description}"/>
+                    </p>
+                    <p class="inputAttr">
+                        <label for="placeholder">placeholder</label>
+                        <input id="placeholder" type="text" value="{placeholder}"/>
+                    </p>
+                    <p>
+                        <label for="title">title</label>
+                        <input id="title" type="text" value="{title}"/>
+                    </p>
+                    <p>
+                        <label for="value">value</code></label>
+                        <input id="value" type="text" value="" placeholder="user's input"/>
+                    </p>
+                </fieldset>
+                <fieldset>
+                    <legend>attributes</legend>
+                     <p class="inputAttr">
+                        <label for="autocomplete">autocomplete</label>
+                        <select id="autocomplete"">
+                            <option>true</option>
+                            <option selected>false</option>
+                        </select>
+                    </p>
+                    <!--
+                    <fieldset>
+                        <legend>autocomplete</legend>
+                        <label><input type="radio" value="true" id="autoOn" name="auto">true</label>
+                        <label><input type="radio" value="false" id="autoOff" name="auto" checked>false</label>
+                    </fieldset>
+
+                    -->
+                    <p>
+                        <label for="required">required</label>
+                        <select id="required">
+                            <option value="false">none</option>
+                            <option value="html">HTML method</option>
+                            <option value="aria">ARIA method</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="disabled">disabled</label>
+                        <select id="disabled">
+                            <option value="false">none</option>
+                            <option value="html">HTML method</option>
+                            <option value="aria">ARIA method</option>
+                        </select>
+                    </p>
+                </fieldset>
+                <fieldset class="buttonAttr">
+                    <legend>button attributes</legend>
+                    <p>
+                        <label for="buttonType">role</label>
+                        <select id="buttonType">
+                            <option value="">Button</option>
+                            <option value="switch">Switch</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="buttonType">type</label>
+                        <select id="buttonType">
+                            <option value="">none</option>
+                            <option value="aria-pressed">Toggle</option>
+                            <option value="aria-expanded">Details</option>
+                            <option value="aria-haspopup">Pop Up</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label>state</label>
+                        <select>
+                            <option>true</option>
+                            <option>false</option>
+                            <option>mixed</option>
+                        </select>  
+                    </p>
+                </fieldset>
+                    
+
+
+                <p class="cta">
+                    <button id="simulateInput" type="submit">Simulate</button>
+                    <button type="reset" onclick="location.reload()">Clear</button>
+                </p>
+
+                <p>Future</p>
+                <ul>
+                    <li>VO/iOS</li>
+                    <li>Talkback</li>
+                    <li>interactive control</li>
+                    <li>change props to radio controls from select</li>
+                    <li>type: {button, link, radio, checkbox, image, tab}</li>
+                    <li>Value</li>
+                    <li>Group name</li>
+                    <li>Form name</li>
+                    <li>checked {checked,unchecked, mixed}</li>
+                    <li>pressed </li>
+                    <li>switch</li>
+                    <li>expanded</li>
+                    <li>conditional property visibility</li>
+                </ul>
+                
+            </form>
+
+            <section>
+                <ol id="output" reversed></ol>
+            </section>
+            </div>
+
+            <template id="outputTemplate">
+                <p class="simulation">
+                    <span class="uaDesc"></span> 
+                    <span class="speech"></span>
+                </p>
+            </template>
+            
+
+<script>
+    /* declare UA strings. source: trial and error*/
+    const UAStrings = JSON.parse(`
+        [
+            {
+                "id" : "JAWS-Chrome-Windows",
+                "disabled" : {
+                    "name" : "unavailable",
+                    "desc" : ""
+                },
+                "required" : {
+                    "name" : "required"
+                },
+                "autocomplete" : {
+                    "name" : "TBD"
+                },
+                "button" : {
+                    "name" : "button",
+                    "desc" : "",
+                    "instruction" : "To activate press enter."
+                },
+                "text" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  "Type in text."
+                },
+                "email" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" : "Type in text."
+                },
+                "password" : {
+                    "name" : "password edit",
+                    "desc" : "",
+                    "instruction" :  "Type in text."
+                },
+                "search" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  "Type in text."
+                },
+                "tel" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  "Type in text"
+                },
+                "textarea" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  "Type in text."
+                },
+                "url" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  "Type in text."
+                },
+                "number" : {
+                    "name" : "edit spin box",
+                    "desc" : "",
+                    "instruction" :  "To set the value use the arrow keys or type the value."
+                },
+                "range" : {
+                    "name" : "slider",
+                    "desc" : "Left right slider",
+                    "instruction" :  "To increase or decrease use the arrow key."
+                },
+                "select" : {
+                    "name" : "select combobox",
+                    "desc" : "",
+                    "instruction" :  "To change the selection use the arrow key."
+                },
+                "list" : {
+                    "name" : "edit combo",
+                    "desc" : "",
+                    "instruction" :  "To set the value use the arrow keys or type the value."
+                }
+            },
+            {
+                "id" : "NVDA-Chrome-Windows",
+                "disabled" : {
+                    "name" : "unavailable",
+                    "desc" : ""
+                },
+                "required" : {
+                    "name" : "required"
+                },
+                "autocomplete" : {
+                    "name" : "has autocomplete"
+                },
+                "text" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "button" : {
+                    "name" : "button",
+                    "desc" : "",
+                    "instruction" : "TBD"
+                },
+                "email" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" : ""
+                },
+                "password" : {
+                    "name" : "edit protected",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "search" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "tel" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "textarea" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "url" : {
+                    "name" : "edit",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "number" : {
+                    "name" : "spin button editable",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "range" : {
+                    "name" : "slider",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "select" : {
+                    "name" : "combobox collapsed",
+                    "desc" : "",
+                    "instruction" :  ""
+                },
+                "list" : {
+                    "name" : "combobox has autocomplete editable",
+                    "desc" : "",
+                    "instruction" :  ""
+                }
+            },
+            {
+                "id" : "VoiceOver-Safari-OSX",
+                "version" : "OSX 12.4",
+                "autocomplete" : {
+                    "name" : "with autofill menu"
+                },
+                "disabled" : {
+                    "name" : "dimmed",
+                    "desc" : "This item is dimmed"
+                },
+                "required" : {
+                    "name" : "required"
+                },
+                "text" : {
+                    "name" : "edit text",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text, type."
+                },
+                "button" : {
+                    "name" : "button",
+                    "desc" : "You are currently on a button.",
+                    "instruction" : "To click this button press Control-Option-Space."
+                },
+                "email" : {
+                    "name" : "edit text email field",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text, type."
+                },
+                "password" : {
+                    "name" : "secure edit text",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text, type. This is a secure text field. Text you type into this field will not be displayed and will not be spoken by VoiceOver."
+                },
+                "search" : {
+                    "name" : "search text field",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text in this field, type."
+                },
+                "select" : {
+                    "name" : "pop up button",
+                    "desc" : "You are currently on a pop up button.",
+                    "instruction" :  "To display a list of options, press Control-Option-Space."
+                },
+                "tel" : {
+                    "name" : "edit text telephone field",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text, type."
+                },
+                "textarea" : {
+                    "name" : "edit text",
+                    "desc" : "You are currently on a text area.",
+                    "instruction" :  ""
+                },                        
+                "url" : {
+                    "name" : "edit text URL field",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text in this field, type."
+                },
+                "number" : {
+                    "name" : "incrementable edit text",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text, type."
+                },
+                "range" : {
+                    "name" : "slider",
+                    "desc" : "You are currently on a slider.",
+                    "instruction" :  "To start interacting with the slider, press Control-Option-Shift-Down-Arrow."
+                },
+                "list" : {
+                    "name" : "list box popup, edit text",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To start interacting with the slider, press Control-Option-Shift-Down-Arrow."
+                }
+            },
+            {
+                "id" : "VoiceOver-Safari-iOS",
+                "version" : "OSX 15.6",
+                "autocomplete" : {
+                    "name" : "TBD"
+                },
+                "disabled" : {
+                    "name" : "dimmed",
+                    "desc" : "This item is dimmed"
+                },
+                "required" : {
+                    "name" : "required"
+                },
+                "text" : {
+                    "name" : "text field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },
+                "button" : {
+                    "name" : "button",
+                    "desc" : "",
+                    "instruction" :  "Double tap to activate."
+                },
+                "email" : {
+                    "name" : "text field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },
+                "password" : {
+                    "name" : "secure text field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },
+                "search" : {
+                    "name" : "search field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },
+                "select" : {
+                    "name" : "pop up button",
+                    "desc" : "",
+                    "instruction" :  "Double tap to activate the picker."
+                },
+                "tel" : {
+                    "name" : "edit text telephone field",
+                    "desc" : "You are currently on a text field.",
+                    "instruction" :  "To enter text, type."
+                },
+                "textarea" : {
+                    "name" : "multiline text field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },                        
+                "url" : {
+                    "name" : "text field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },
+                "number" : {
+                    "name" : "text field",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                },
+                "range" : {
+                    "name" : "adjustable",
+                    "desc" : "",
+                    "instruction" :  "Swipe up or down with one finger to adjust the value."
+                },
+                "list" : {
+                    "name" : "text field listbox popup,",
+                    "desc" : "",
+                    "instruction" :  "Double tap to edit."
+                }
+            }
+        ]
+    `);
+</script>
+
+<script>
+    /* 
+    overview:
+        - functions for accName and accDesc calcs
+        - parse attributes and authored content
+        - concatenate announcements for each ua
+        - create and add output node.
+
+        */
+       
+       
+       
+       
+       
+    var accNameFlag = "";  // declare accNameFlag to use in acc Names cacls.
+    function outputMessage() {
+        //  get authored content and properties
+        auth = new Object();
+        prop = new Object();
+        user = new Object();      
+
+        // declare empty value.  (for future features)
+        user.value = config["value"].value;  // future, add generated control THEN add get input.value
+        auth.arialabelledby = ""; // future:  add config input
+        auth.arialabel = "";  // future: add config input
+
+        // get authored values
+        auth.label = config["name"].value;
+        auth.placeholder = config["placeholder"].value;
+        auth.title = config["title"].value;
+        auth.describedby = "";
+        auth.description = config["description"].value;
+       
+        // get ua properties
+        prop.type = config["type"].value;
+        prop.required = config["required"].value;
+        prop.autocomplete = config["autocomplete"].value;
+        prop.disabled = config["disabled"].value;
+       
+        // get template for content object
+        var myOutput = document.querySelector("#output");
+        var template = document.querySelector('#outputTemplate');
+        var group = document.createElement("li");
+        
+        // create new objects
+
+        UAStrings.forEach((ua) => {
+            var clone = template.content.cloneNode(true);
+            var desc = clone.querySelector(".uaDesc");
+            var message = clone.querySelector(".speech");
+            // assign content                  
+            desc.textContent = (ua).id; 
+            message.textContent = (prop.disabled =="html" ? "Not announced" : getAnnouncement((ua), (ua).id));
+            // write new objects
+            group.appendChild(clone);
+            }
+        );
+        myOutput.prepend(group);
+
+        // prevent default button behavior
+        return false;  
+    }
+
+    /* START: ACC NAME CALCULATION */
+    function getAccName(){
+        if (auth.arialabelledby!="") {
+            return auth.arialabelledby;
+        } else if (auth.arialabel!="") {
+            return auth.arialabel;
+        } else if (auth.label!="") {
+            return auth.label;
+        } else if (auth.placeholder!="") {
+            accNameFlag = "placeholder";
+            return auth.placeholder;  
+        } else if (auth.title!="") {
+            accNameFlag="title"
+            return auth.title;
+        } else {
+            return "missing label";
+        }
+    }
+
+    function getAccDesc(){
+        if (auth.describedby != "") {
+            return auth.describedby;
+        } else if (auth.description != "") {
+            return auth.description;
+        } else if (auth.placeholder != "" & accNameFlag != "placeholder") {
+            return auth.placeholder;            
+        } else if (auth.title != "" & accNameFlag != "title") {
+            return auth.title;
+        } else {
+            return "";
+        }
+    }
+    function getJAWSAccName(){
+        // JAWS calc excludes placeholder
+        if (auth.arialabelledby!="") {
+            return auth.arialabelledby;
+        } else if (auth.arialabel!="") {
+            return auth.arialabel;
+        } else if (auth.label!="") {
+            return auth.label;
+/*        } else if (auth.placeholder!="") {
+           accNameFlag = "placehodler";
+            return auth.placeholder;  
+*/        } else if (auth.title!="") {
+            accNameFlag="title"
+            return auth.title;
+        } else {
+            return "missing label";
+        }
+    }
+
+    function getJAWSAccDesc(){
+        // JAWS calc skips placeholder rule
+        if (auth.describedby != "") {
+            return auth.describedby;
+        } else if (auth.description != "") {
+            return auth.description;
+/*        } else if (auth.placeholder != "" & accNameFlag != "placeholder") {
+            return auth.placeholder;            
+*/        } else if (auth.title != "" & accNameFlag != "title") {
+            return auth.title;
+        } else {
+            return "";
+        }
+    }
+
+    function getNVDAAccName(){
+        // JAWS calc excludes placeholder
+        if (auth.arialabelledby!="") {
+            return auth.arialabelledby;
+        } else if (auth.arialabel!="") {
+            return auth.arialabel;
+        } else if (auth.label!="") {
+            return auth.label;
+/*        } else if (auth.placeholder!="") {
+           accNameFlag = "placehodler";
+            return auth.placeholder;  
+*/        } else if (auth.title!="") {
+            accNameFlag="title"
+            return auth.title;
+        } else {
+            return "missing label";
+        }
+    }
+    function getNVDAAccDesc(){
+        // JAWS calc skips placeholder rule
+        if (auth.describedby != "") {
+            return auth.describedby;
+        } else if (auth.description != "") {
+            return auth.description;
+/*        } else if (auth.placeholder != "" & accNameFlag != "placeholder") {
+            return auth.placeholder;            
+*/        } else if (auth.title != "" & accNameFlag != "title") {
+            return auth.title;
+        } else {
+            return "";
+        }
+    }
+
+    /* END: ACC NAME CALCULATION */
+
+    function getAnnouncement(obj, id) {
+        // format output for user agent
+        accNameFlag = "";  //reset accNameFlag hack
+
+        if (prop.type == "button"){
+            auth.placeholder = ""; // placeholder is not a button attribute.
+            return getAccName() + 
+            " " + obj[prop.type].name + 
+            "." + 
+            (getAccDesc().length!=0? " "+getAccDesc()+" " : "") +
+            obj[prop.type].instruction;
+        };
+
+
+        // type is basic input
+        if (id == "VoiceOver-Safari-OSX") {
+            // VoiceOver appears to apply the AccNames and AccDescription logic per the published Stantdard.   In addition, they append additional description and instructions.
+            return getAccName() + 
+                (auth.placeholder.length>0? " "+ auth.placeholder : "") +  // begin name
+                (prop.disabled != "false" | prop.required != "false" ? ", " : "") +
+                (prop.disabled != "false" ? " dimmed" : "") +
+                (prop.required != "false" ? " required" : "") +
+                " " + obj[prop.type].name + // add (value.text? value : null)
+                (prop.autocomplete != "false" ? " " + obj.autocomplete.name : "") + "." +  
+                " " + getAccDesc() + "." +  // begin description
+                " " + obj[prop.type].desc + 
+                " " + obj[prop.type].instruction + 
+                (prop.disabled != "false" ? " " + obj["disabled"].desc : "");
+        } else if (id == "NVDA-Chrome-Windows"){
+            return getNVDAAccName() +
+                 ", " + obj[prop.type].name +
+                 (prop.disabled != "false" ? " " + obj["disabled"].name : "") +
+                 (prop.required == "html" ? " required invalid entry" : prop.required == "aria" ? " " + obj["required"].value : "") +
+                 (getNVDAAccDesc().length>0? " " + getNVDAAccDesc() : "") +
+                 (user.value.length>0? " selected " + user.value : " " + auth.placeholder + " blank")
+                // "title"
+                // "placeholder"
+                // add (value.text?  value : "blank")
+                " " + getAccDesc() + 
+                ", " + obj[prop.type].instruction;
+        } else if (id == "JAWS-Chrome-Windows") {
+            
+            return getJAWSAccName() + 
+                ", "+ obj[prop.type].name +
+                (prop.disabled != "false" ? " unavailable" : "") +
+                (prop.required == "html" ? " required invalid entry" : prop.required == "aria" ? " required" : "") +
+                (user.value.length!=0? " " + user.value : auth.placeholder!=0? " " + auth.placeholder : "") + // JAWS placeholder usage not like accName
+                "." +
+                (getJAWSAccDesc().length>0? " " + getJAWSAccDesc() + ", " : " ") + 
+                obj[prop.type].instruction;
+        } else {
+                return "not defined";
+        };
+    }
+</script>
+
+<script>
+    // for conditional form display
+    function updateParameters(){
+        thisForm = document.getElementById("config");
+        thisForm.removeAttribute("class");
+        thisForm.setAttribute("class", type.value);
+
+    }
+</script>
+
+        </main>
+    </body>
+</html>
