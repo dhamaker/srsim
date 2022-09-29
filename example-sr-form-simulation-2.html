@@ -735,6 +735,7 @@
                 (prop.disabled != "false" ? " dimmed" : "") +
                 (prop.required != "false" ? " required" : "") +
                 " " + obj[prop.type].name + // add (value.text? value : null)
+                " " + (user.value.length!=0? " " + user.value : auth.placeholder!=0? " " + auth.placeholder : "") +
                 (prop.autocomplete != "false" ? " " + obj.autocomplete.name : "") + "." +  
                 " " + getAccDesc() + "." +  // begin description
                 " " + obj[prop.type].desc + 
